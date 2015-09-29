@@ -196,13 +196,9 @@ func (d *ESX5Driver) VNCAddress(portMin, portMax uint) (string, uint, error) {
 		l, err := net.DialTimeout("tcp", address, 1*time.Second)
 
 		if err != nil {
-			if e, ok := err.(*net.OpError); ok {
-				if e.Timeout() {
-					log.Printf("Timeout connecting to: %s (check firewall rules)", address)
-				} else {
-					vncPort = port
-					break
-				}
+			if _, ok := err.(*net.OpError); ok {
+				vncPort = port
+				break
 			}
 		} else {
 			defer l.Close()
