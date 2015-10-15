@@ -192,17 +192,9 @@ func (d *ESX5Driver) VNCAddress(portMin, portMax uint) (string, uint, error) {
 			continue
 		}
 		address := fmt.Sprintf("%s:%d", d.Host, port)
-		log.Printf("Trying address: %s...", address)
-		l, err := net.DialTimeout("tcp", address, 1*time.Second)
-
-		if err != nil {
-			if _, ok := err.(*net.OpError); ok {
-				vncPort = port
-				break
-			}
-		} else {
-			defer l.Close()
-		}
+		log.Printf("Using Hardcoded Address: %s...", address)
+		vncPort = port
+		break
 	}
 
 	if vncPort == 0 {
